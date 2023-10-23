@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class TicTacToe {
+    public static void main(String[] args) {
+        char[] board = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        char currentPlayer = 'X';
+
+        while (true) {
+            printBoard(board);
+            int move = getPlayerMove(board);
+            board[move] = currentPlayer;
+
+            if (checkWin(board, currentPlayer)) {
+                printBoard(board);
+                System.out.println("Player " + currentPlayer + " wins!");
+                break;
+            }
+
+            if (isBoardFull(board)) {
+                printBoard(board);
+                System.out.println("It's a draw!");
+                break;
+            }
+
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        }
+    }
+
+    public static void printBoard(char[] board) {
+        System.out.println(" " + board[0] + " | " + board[1] + " | " + board[2]);
+        System.out.println("-----------");
+        System.out.println(" " + board[3] + " | " + board[4] + " | " + board[5]);
+        System.out.println("-----------");
+        System.out.println(" " + board[6] + " | " + board[7] + " | " + board[8]);
+    }
+
+    public static int getPlayerMove(char[] board) {
+        Scanner scanner = new Scanner(System.in);
+        int move;
+        while (true) {
+            System.out.print("Player " + board[0] + ", enter your move (0-8): ");
+            move = scanner.nextInt();
+            if (move >= 0 && move < 9 && board[move] == ' ') {
+                return move;
+            }
+        }
+    }
+
+    public static boolean checkWin(char[] board, char player) {
+        return ((board[0] == player && board[1] == player && board[2] == player) ||
+                (board[3] == player && board[4] == player && board[5] == player) ||
+                (board[6] == player && board[7] == player && board[8] == player) ||
+                (board[0] == player && board[3] == player && board[6] == player) ||
+                (board[1] == player && board[4] == player && board[7] == player) ||
+                (board[2] == player && board[5] == player && board[8] == player) ||
+                (board[0] == player && board[4] == player && board[8] == player) ||
+                (board[2] == player && board[4] == player && board[6] == player));
+    }
+
+    public static boolean isBoardFull(char[] board) {
+        for (char cell : board) {
+            if (cell == ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+}
